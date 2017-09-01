@@ -1,31 +1,29 @@
 var webpack = require('webpack')
 var path = require('path')
 var Html = require('html-webpack-plugin')
+var Fail = require('webpack-fail-plugin');
 
 module.exports = {
   entry: [
-    './index.ts'
+    './index.js'
   ],
-  devtool: 'source-map',
+  //devtool: 'source-map',
   output: {
     filename: 'dist/[name].js',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.js']
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        use: ["source-map-loader"],
-        enforce: "pre"
-      }
+      //{
+      //  test: /\.js$/,
+      //  use: ["source-map-loader"],
+      //  enforce: "pre"
+      //},
+      { test: /\.jsx?$/, use: 'babel-loader', exclude: /node_modules/ }
     ],
-    loaders: [ // loaders will work with webpack 1 or 2; but will be renamed "rules" in future
-      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.tsx?$/, use: 'ts-loader' }
-    ]
   },
-  plugins: [new Html()]
+  plugins: [new Html(), Fail]
 }
 
